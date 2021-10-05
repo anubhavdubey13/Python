@@ -32,9 +32,12 @@ def password_generator():
         j = secrets.randbelow(256)
         mining = secrets.token_hex(256)
         # print(mining,'  ' ,j)
-        password += mining[j]
+        if secrets.randbelow(512)%2 == 0:
+            password += mining[j]
+        else:
+            password += mining[j].upper()
         i += 1
-    return password
+    print(password)
 
 password_generator()
 
