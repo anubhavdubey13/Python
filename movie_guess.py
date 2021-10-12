@@ -1,6 +1,60 @@
 # Guess the movie may be
 # Idea credit Kanika Tayal ft. some MIT OCW
 
+# What I would want to see this as: Multi-player game like scribble
+
+# Final Function. Version 1
+# Issue: 1. I have to hide the input but can't figure a way rn
+# 2. Multiple word movies will face issue due to spaces. So replace space by '/'
+
+def guess_the_movie(movie):
+    
+    vowels = ['a','e','i','o','u']
+    
+    movie = movie.lower()
+
+    guess = []
+    for m in movie:
+        if m in vowels:
+            guess.append(m)
+        else:
+            guess.append(' _ ')
+            
+    print(guess)
+
+    counter = 9
+    list_guessed_letters = vowels.copy()
+    while (counter > 0) and (' _ ' in guess):
+        letter = input('Enter letter: ').lower()
+        
+        if letter in list_guessed_letters:
+            print('Letter already guessed or it is vowel. Try again')
+        else: 
+            if letter in movie:
+                for i in range(0, len(movie),1):
+                    if movie[i] == letter:
+                        guess[i] = letter
+            else:
+                counter -= 1
+                if counter == 0:
+                    print('Game Over. You lost. The movie is ', movie)
+        
+        if ' _ ' not in guess:
+            print('You guessed right! The movie is ', movie)
+        else:
+            print(guess)
+            print('Guesses left:', counter)
+        
+        list_guessed_letters.append(letter)
+    
+guess_the_movie('Kal Ho')
+
+#==============================================================================
+
+# import getpass
+# m = getpass.getpass('Enter movie:')
+# print(m)
+    
 movie = input('Enter the movie name: ').lower()
 
 vowels = ['a','e','i','o','u']
@@ -34,30 +88,42 @@ print(guess)
 
 # Iter 1
 # Some major errors here:
-    # 1. taking repeated letters & not exiting 
+    # 1. taking repeated letters & not exiting - sorted
 
-movie = 'Dhishoom'
+movie = 'Shershah'
+movie = movie.lower()
 
 guess = []
 for m in movie:
     if m in vowels:
-        guess.append(' ' + m + ' ')
+        guess.append(m)
     else:
         guess.append(' _ ')
         
 print(guess)
+
 counter = 9
+list_guessed_letters = vowels.copy()
 while (counter > 0) and (' _ ' in guess):
     letter = input('Enter letter: ').lower()
     
-    if letter in movie:
-        for i in range(0, len(movie),1):
-            if movie[i] == letter:
-                guess[i] = letter
-        if ' _ ' in guess == False:
-            print('You guessed right!')
+    if letter in list_guessed_letters:
+        print('Letter already guessed or it is vowel. Try again')
+    else: 
+        if letter in movie:
+            for i in range(0, len(movie),1):
+                if movie[i] == letter:
+                    guess[i] = letter
+        else:
+            counter -= 1
+            if counter == 0:
+                print('Game Over. You lost. The movie is ', movie)
+    
+    if ' _ ' not in guess:
+        print('You guessed right! The movie is ', movie)
     else:
-        counter -= 1
-        print(counter)
-        if counter == 0:
-            print('Game Over. You lost. The movie is ', movie)
+        print(guess)
+        print('Guesses left:', counter)
+    
+    list_guessed_letters.append(letter)
+    
