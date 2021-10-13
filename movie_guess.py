@@ -3,9 +3,10 @@
 
 # What I would want to see this as: Multi-player game like scribble
 
-# Final Function. Version 1
+# Final Function. Version 2
 # Issue: 1. I have to hide the input but can't figure a way rn
-# 2. Multiple word movies will face issue due to spaces. So replace space by '/'
+# Update: Been able to clear console so kinda works for now
+# Baaki to fulfill objective, might have to learn frontend
 
 def guess_the_movie(movie):
     
@@ -17,10 +18,12 @@ def guess_the_movie(movie):
     for m in movie:
         if m in vowels:
             guess.append(m)
+        elif m == ' ':
+            guess.append('/')
         else:
             guess.append(' _ ')
-            
-    print(guess)
+    print("\033[H\033[J")         
+    print(''.join(guess))
 
     counter = 9
     list_guessed_letters = vowels.copy()
@@ -37,17 +40,17 @@ def guess_the_movie(movie):
             else:
                 counter -= 1
                 if counter == 0:
-                    print('Game Over. You lost. The movie is ', movie)
+                    print('Game Over. You lost. The movie is', movie)
         
         if ' _ ' not in guess:
-            print('You guessed right! The movie is ', movie)
+            print('You guessed right! The movie is', movie)
         else:
-            print(guess)
+            print(''.join(guess))
             print('Guesses left:', counter)
         
         list_guessed_letters.append(letter)
     
-guess_the_movie('Kal Ho')
+guess_the_movie('Kal Ho Na Ho')
 
 #==============================================================================
 
