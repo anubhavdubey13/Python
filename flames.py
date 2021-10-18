@@ -33,3 +33,15 @@ print(compatible[useful_length - 1])
 # Idk if I should beautify this or not
 
 # Type 2 would be were any repeated alphabet is completely eliminated
+l = {}
+for n in name1+name2:
+    l[n] = (name1+name2).count(n)
+
+m = []
+for k in l:
+    if l[k] == 1:
+        m.append(k)
+        
+print(compatible[len(''.join(m)) - 1])        
+
+
