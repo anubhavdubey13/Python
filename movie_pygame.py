@@ -8,7 +8,7 @@ WIDTH, HEIGHT = 900, 600
 WIN = pygame.display.set_mode((WIDTH,HEIGHT))
 
 COUNTER_FONT = pygame.font.SysFont('comicsans', 40)
-GUESS_FONT = pygame.font.SysFont('comicsans', 80)
+GUESS_FONT = pygame.font.SysFont('comicsans', 60)
 
 pygame.display.set_caption('Guess the movie!')
 
@@ -16,6 +16,8 @@ FPS = 60
 
 WHITE = (255,255,255)
 BLACK = (0,0,0)
+
+vowels = ['a','e','i','o','u']
 
 # for input box
 COLOR_INACTIVE = pygame.Color('lightskyblue3')
@@ -79,15 +81,72 @@ def draw_window(counter, guess):
     WIN.blit(counter_text, (WIDTH-counter_text.get_width() - 10, 10))
 
     guess_text = GUESS_FONT.render(guess,-1, WHITE)
-    WIN.blit(guess_text, (WIDTH//4, HEIGHT//2-60))
+    WIN.blit(guess_text, (100, HEIGHT//2-60))
 
     pygame.display.update()
+
+def movie_format(movie):
+    
+    movie = movie.lower()
+
+    guess = []
+    for m in movie:
+        if m in vowels:
+            guess.append(m)
+        elif m == ' ':
+            guess.append('/')
+        else:
+            guess.append(' _ ')
+
+    guess =  ''.join(guess)   
+    return guess, movie
+
+def the_game(movie, guess, user_input):
+    counter = 9
+    list_guessed_letters = vowels.copy()
+    while (counter > 0) and (' _ ' in guess):
+        letter = user_input.lower()
+        
+        if letter in list_guessed_letters:
+            #print('Letter already guessed or it is vowel. Try again')
+            pass
+        else: 
+            if letter in movie:
+                for i in range(0, len(movie),1):
+                    if movie[i] == letter:
+                        guess[i] = letter
+            else:
+                counter -= 1
+                if counter == 0:
+                    print('Game Over. You lost. The movie is', movie)
+        
+        if ' _ ' not in guess:
+            print('You guessed right! The movie is', movie)
+        else:
+            print(''.join(guess))
+            print('Guesses left:', counter)
+        
+        list_guessed_letters.append(letter)
+
+def the_game2(movie, guess, letter):
+    the_list = []
+    [the_list.append(guess[i]) for i in range(len(guess))] 
+    
+    if letter in movie:
+        for i in range(len(movie)):
+            if movie[i] == letter:
+                the_list[i] = letter
+    updated_guess = ''.join(the_list)
+    return updated_guess
+
+the_game2('kal ho', '_a_/_o','k')
 
 def main():
 
     guess = ''#'M_V__/N_M_'
 
     inputbox = InputBox(10,10,140,32)
+    inputbox_G = InputBox(10,500,140,32)
 
     counter = 9
     clock = pygame.time.Clock()
@@ -100,16 +159,28 @@ def main():
                 pygame.quit()
             
             inputbox.handle_event(event)
-        print(inputbox.stored_val())
+            inputbox_G.handle_event(event)      
+
+        guess, movie = movie_format(inputbox.stored_val()) 
+            #guess += inputbox_G.stored_val()
+        guess = the_game2(movie, guess, inputbox_G.stored_val())
 
         inputbox.update()
-        
+        inputbox_G.update()
+        #print(inputbox.stored_val())
         #WIN.fill((30,30,30))
+
         draw_window(counter, guess)
         inputbox.draw(WIN)
-        pygame.display.flip()
-        
+        inputbox_G.draw(WIN)
+        pygame.display.flip()        
         
     main()
 
 main()
+
+
+# where I am getting stuck:
+# 1. not able to substitute dashes. Seems like there is an extra character
+# Will be building this from scratch
+# and go slow
