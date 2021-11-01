@@ -96,7 +96,7 @@ def movie_format(movie):
         elif m == ' ':
             guess.append('/')
         else:
-            guess.append(' _ ')
+            guess.append('_')
 
     guess =  ''.join(guess)   
     return guess, movie
@@ -141,9 +141,54 @@ def the_game2(movie, guess, letter):
 
 the_game2('kal ho', '_a_/_o','k')
 
+# def main():
+
+#     guess = ''#'M_V__/N_M_'
+
+#     inputbox = InputBox(10,10,140,32)
+#     inputbox_G = InputBox(10,500,140,32)
+
+#     counter = 9
+#     clock = pygame.time.Clock()
+#     run = True
+#     while run:
+#         clock.tick(FPS)
+#         for event in pygame.event.get():
+#             if event.type == pygame.QUIT:
+#                 run = False
+#                 pygame.quit()
+            
+#             inputbox.handle_event(event)
+#             inputbox_G.handle_event(event)      
+
+#         guess, movie = movie_format(inputbox.stored_val()) 
+#             #guess += inputbox_G.stored_val()
+#         # while '_' in guess:
+#         #     guess = the_game2(movie, guess, inputbox_G.stored_val())
+
+#         inputbox.update()
+#         inputbox_G.update()
+#         #print(inputbox.stored_val())
+#         #WIN.fill((30,30,30))
+
+#         draw_window(counter, guess)
+#         inputbox.draw(WIN)
+#         inputbox_G.draw(WIN)
+#         pygame.display.flip()        
+        
+#     main()
+
+# main()
+
+
+# where I am getting stuck:
+# 1. not able to substitute dashes. Seems like there is an extra character
+# Will be building this from scratch
+# and go slow
+
 def main():
 
-    guess = ''#'M_V__/N_M_'
+    guess = ''
 
     inputbox = InputBox(10,10,140,32)
     inputbox_G = InputBox(10,500,140,32)
@@ -151,25 +196,25 @@ def main():
     counter = 9
     clock = pygame.time.Clock()
     run = True
+
     while run:
         clock.tick(FPS)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-                pygame.quit()
+                pygame.quit()  
             
+            inputbox_G.handle_event(event)
             inputbox.handle_event(event)
-            inputbox_G.handle_event(event)      
 
-        guess, movie = movie_format(inputbox.stored_val()) 
-            #guess += inputbox_G.stored_val()
-        guess = the_game2(movie, guess, inputbox_G.stored_val())
+        if guess == '':
+            guess,movie = movie_format(inputbox.stored_val())
+        else:
+            guess = the_game2(movie, guess, inputbox_G.stored_val()) # simple does it. Phew!!!!
 
         inputbox.update()
         inputbox_G.update()
-        #print(inputbox.stored_val())
-        #WIN.fill((30,30,30))
-
+            
         draw_window(counter, guess)
         inputbox.draw(WIN)
         inputbox_G.draw(WIN)
@@ -179,8 +224,7 @@ def main():
 
 main()
 
-
-# where I am getting stuck:
-# 1. not able to substitute dashes. Seems like there is an extra character
-# Will be building this from scratch
-# and go slow
+# the part about printing guess on the screen is working. It was working previously as well
+# the part to be solved is replacing at exact position - even this is working
+# The bottleneck is preventing update of 'guess' because as it restarts the process again instead of saving the string - sorted
+# next step: a functional counter
