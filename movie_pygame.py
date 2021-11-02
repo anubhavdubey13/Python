@@ -17,6 +17,8 @@ FPS = 60
 WHITE = (255,255,255)
 BLACK = (0,0,0)
 
+COUNTER = 9
+
 vowels = ['a','e','i','o','u']
 
 # for input box
@@ -128,18 +130,28 @@ def the_game(movie, guess, user_input):
         
         list_guessed_letters.append(letter)
 
-def the_game2(movie, guess, letter):
+def the_game2(movie, guess, letter, counter):
+    list_guessed_letters = vowels.copy()
+
     the_list = []
     [the_list.append(guess[i]) for i in range(len(guess))] 
     
-    if letter in movie:
-        for i in range(len(movie)):
-            if movie[i] == letter:
-                the_list[i] = letter
+    if (counter > 0) & ('_' in guess):
+        list_guessed_letters.append(letter) # need to fig out a way to update this without the defined one being called
+        if letter in movie:
+            for i in range(len(movie)):
+                if movie[i] == letter:
+                    the_list[i] = letter
+        else:
+            counter = COUNTER - len(list_guessed_letters) + 5
+        
+    elif ('_' in guess) == False:
+        print('you won!')
+    
     updated_guess = ''.join(the_list)
-    return updated_guess
+    return updated_guess, counter
 
-the_game2('kal ho', '_a_/_o','k')
+#the_game2('kal ho', '_a_/_o','k')
 
 # def main():
 
@@ -189,11 +201,10 @@ the_game2('kal ho', '_a_/_o','k')
 def main():
 
     guess = ''
-
+    counter = COUNTER
     inputbox = InputBox(10,10,140,32)
     inputbox_G = InputBox(10,500,140,32)
 
-    counter = 9
     clock = pygame.time.Clock()
     run = True
 
@@ -210,7 +221,7 @@ def main():
         if guess == '':
             guess,movie = movie_format(inputbox.stored_val())
         else:
-            guess = the_game2(movie, guess, inputbox_G.stored_val()) # simple does it. Phew!!!!
+            guess, counter = the_game2(movie, guess, inputbox_G.stored_val(), counter) # simple does it. Phew!!!!
 
         inputbox.update()
         inputbox_G.update()
