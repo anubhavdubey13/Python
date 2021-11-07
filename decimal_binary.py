@@ -14,6 +14,16 @@ dec_to_bin(2936)
 bin(2936)[2:]
 
 
+# Binary to Decimal
+def bin_to_dec(b):
+    b = str(b)
+    d = 0
+    for c in range(len(b)):
+        d += (2**(len(b) - c - 1))*int(b[c])
+    return d
+        
+bin_to_dec(101101111000)
+
 #================ROUGH WORK=========================
 # Stop when q = 0
 
